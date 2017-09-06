@@ -287,4 +287,35 @@ describe('src/api/create-vis', function () {
       }, 25);
     });
   });
+
+  it('should parse bounds and set attributes', function () {
+    this.vis = createVis(this.containerId, fakeVizJSON, {
+      skipMapInstantiation: true
+    });
+
+    expect(this.vis.map.get('view_bounds_sw')).toEqual([ 41.340989240001214, 2.0194244384765625 ]);
+    expect(this.vis.map.get('view_bounds_ne')).toEqual([ 41.47051539294297, 2.426605224609375 ]);
+    expect(this.vis.map.get('bounds')).toBeUndefined();
+  });
+
+
+  it('should set the center on the map', function () {
+    fakeVizJSON.center = [41.40578459184651, 2.2230148315429688];
+
+    this.vis = createVis(this.containerId, fakeVizJSON, {
+      skipMapInstantiation: true
+    });
+
+    expect(this.vis.map.get('center')).toEqual([41.40578459184651, 2.2230148315429688]);
+  });
+
+  it('should set the center on the map when given a string', function () {
+    fakeVizJSON.center = '[41.40578459184651, 2.2230148315429688]';
+
+    this.vis = createVis(this.containerId, fakeVizJSON, {
+      skipMapInstantiation: true
+    });
+
+    expect(this.vis.map.get('center')).toEqual([41.40578459184651, 2.2230148315429688]);
+  });
 });
